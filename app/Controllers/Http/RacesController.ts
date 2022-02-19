@@ -26,7 +26,6 @@ export default class RacesController {
 
   public async getRaceSummaryByPegaIds({ request, response }: HttpContextContract) {
     let pega_ids = request.input('pega_ids')
-    console.log(pega_ids)
     let start_date = request.input('start_date')
     let end_date = request.input('end_date')
     let today = new Date(Date.now())
@@ -40,6 +39,6 @@ export default class RacesController {
       total_races: total_races,
     })
     // console.log(races)
-    response.send(races)
+    response.send(races[0])
   }
 }
