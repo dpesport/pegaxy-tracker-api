@@ -32,7 +32,7 @@ export default class RacesController {
     if (end_date == undefined) end_date = today.toISOString().split('T')[0]
     let total_days = this.getDifferenceInDays(new Date(end_date), new Date(start_date))
     let total_races = total_days * 24
-    let races = await Database.rawQuery("SELECT pega_id, count(*) as 'total_races',  sum(if(position<=3, 1,0)) as 'win', sum(if(position>3, 1, 0)) as 'lose', sum(if(position<=3, reward, 0)) as 'reward', avg(if(position<=3, 1, 0)) as 'win_rate', count(*)/:total_races as 'pega_usage' FROM races where race_date BETWEEN :start_date and :end_date and pega_id in (:pega_ids) group by pega_id;", {
+    let races = await Database.rawQuery("SELECT pega_id, count(*) as 'total_races',  sum(if(position<=3, 1,0)) as 'win', sum(if(position>3, 1, 0)) as 'lose', sum(if(position<=3, reward, 0)) as 'reward', avg(if(position<=3, 1, 0)) as 'win_rate', count(*)/:total_races as 'pega_usage' FROM races where race_date BETWEEN :start_date and :end_date and pega_id in (:pega_ids) group by pega_id order by field(pega_id, :pega_ids);", {
       start_date: start_date,
       end_date: end_date,
       pega_ids: pega_ids,
